@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start:dev": "nodemon dist/index.js",
+        "start:dev": "nodemon ./dist/index.js",
         "build:dev": "tsc --watch --preserveWatchOutput",
         "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
         "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
