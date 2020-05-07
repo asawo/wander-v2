@@ -1,27 +1,35 @@
 const path = require('path');
 
 module.exports = {
-	entry: './src/app.js',
+	entry: './src/index.tsx',
 	output: {
-		path: path.join(__dirname, 'public'),
+		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle.js',
 	},
 	module: {
 		rules: [
 			{
+				test: /\.(js|jsx)$/,
 				loader: 'babel-loader',
-				test: /\.js$/,
 				exclude: /node_modules/,
 			},
 			{
 				test: /\.s?css$/,
 				use: ['style-loader', 'css-loader', 'sass-loader'],
 			},
+			{
+				test: /\.ts(x)?$/,
+				use: ['awesome-typescript-loader'],
+				exclude: /node_modules/,
+			},
 		],
+	},
+	resolve: {
+		extensions: ['.js', '.jsx', '.tsx', '.ts'],
 	},
 	devtool: 'cheap-module-eval-source-map',
 	devServer: {
-		contentBase: path.join(__dirname, 'public'),
+		contentBase: path.join(__dirname, 'dist'),
 		historyApiFallback: true,
 	},
 };
