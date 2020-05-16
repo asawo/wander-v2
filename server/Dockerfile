@@ -4,6 +4,8 @@ WORKDIR /server
 
 COPY package*.json /server/
 
+RUN apk update && apk add bash
+
 RUN npm ci
 
 COPY . /server/
