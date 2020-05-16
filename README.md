@@ -6,19 +6,66 @@ This time using a more modern stack i.e. react/typescript for the frontend.
 
 ## Description
 
-Wander is a service that will let you look at dogs, and show them your appreciation & love with "like" and "pat" buttons. Or even better, create a profile for your beloved doggo on Wander for others to send your doggo some love! ❤️
+Wander is simply a social media for dogs :dog:
 
-The aim of this service is to enable dog lovers to stare and appreciate dogs, and for dog owners to show off their beloved dog(s) and validate how cool their dog is.
+Are you looking for some cute dog pics?
+Or do you want to share your dog pics for internet points & :heart:?
 
-## Stack
-
-- React + Typescript
-- Express + Typescript
--
+Well, you've found the perfect place :dog2:
 
 ## Status
 
 WIP. Initial stages of setup.
+
+## Stack (WIP)
+
+- React + Typescript
+- SASS
+- Express + Typescript
+- GCP
+- Docker
+
+## How to run it locally
+
+1. Clone this repo
+
+```
+git clone https://github.com/asawo/wander-v2.git && cd wander-v2
+```
+
+#### Setting up the frontend
+
+2. Run these commands from the client directory
+
+```
+cd client
+```
+
+```
+npm install
+```
+
+```
+npm run build-dev
+```
+
+You can check if the frontend is working by running `npm start`, which will start a webpack dev server.
+
+#### Setting up the backend
+
+3. Run these commands from the server directory
+
+```
+cd server
+```
+
+```
+npm install
+```
+
+```
+npm run dev
+```
 
 ## Special thanks
 
