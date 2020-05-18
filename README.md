@@ -33,40 +33,20 @@ WIP. Initial stages of setup.
 git clone https://github.com/asawo/wander-v2.git && cd wander-v2
 ```
 
-#### Setting up the frontend
+#### Run Docker :whale:
 
-2. Run these commands from the client directory
-
-```
-cd client
-```
+2. Run the below commands to set up the image and run it
 
 ```
-npm install
+docker build -t wander-server .
 ```
 
 ```
-npm run build-dev
+docker run -it -p 8080:8080 wander-server
 ```
 
-You can check if the frontend is working by running `npm start`, which will start a webpack dev server.
-
-#### Setting up the backend
-
-3. Run these commands from the server directory
-
-```
-cd server
-```
-
-```
-npm install
-```
-
-```
-npm run dev
-```
+Done! The app should be running on `localhost:8080` :whale:
 
 ## Special thanks
 
-To @VeysonD for giving me guidance/direction/coaching 🙌
+To @VeysonD & @dominikeinkemmer for giving me guidance/direction/coaching 🙌
