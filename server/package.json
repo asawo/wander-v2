@@ -1,10 +1,11 @@
 {
     "name": "wander-v2",
     "version": "1.0.0",
-    "description": "",
+    "description": "Wander Version 2!",
     "main": "index.js",
     "scripts": {
         "start": "node ./dist/index.js",
+        "tsc": "tsc",
         "start:dev": "nodemon ./dist/index.js",
         "build:dev": "tsc --watch --preserveWatchOutput",
         "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
@@ -13,15 +14,14 @@
     "author": "Arthur Lechte",
     "license": "MIT",
     "dependencies": {
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "typescript": "^3.9.2",
+        "@types/express": "^4.17.6",
         "@typescript-eslint/eslint-plugin": "^2.31.0",
         "@typescript-eslint/parser": "^2.31.0",
         "eslint": "^6.8.0",
-        "express": "^4.17.1",
-        "save-dev": "0.0.1-security",
-        "typescript": "^3.9.2"
-    },
-    "devDependencies": {
-        "@types/express": "^4.17.6",
         "concurrently": "^5.2.0",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-prettier": "^3.1.3",
