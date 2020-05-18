@@ -42,7 +42,7 @@ docker build -t wander-server .
 ```
 
 ```
-docker run -it -p 8080:8080 wander-server
+docker run -itd -p 8080:8080 wander-server
 ```
 
 Done! The app should be running on `localhost:8080` :whale:
