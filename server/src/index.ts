@@ -1,6 +1,7 @@
 import express from 'express';
-import { PORT } from './config/constants';
+// import { PORT } from './config/constants';
 import path from 'path';
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 app.use(express.json());
