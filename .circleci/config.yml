@@ -16,7 +16,7 @@ jobs:
       - save_cache:
           paths:
             - ./client/node_modules/
-          keys: npm-client-dependencies-{{ checksum "client/package-lock.json" }}    
+          key: npm-client-dependencies-{{ checksum "client/package-lock.json" }}    
    
       # install dependencies for server
       - restore_cache:
@@ -25,7 +25,7 @@ jobs:
             - npm-dependencies-
       - run: cd server && npm install
       - save_cache:
-          paths:
+          path:
             - ./server/node_modules/
           keys: npm-server-dependencies-{{ checksum "server/package-lock.json" }}
 
