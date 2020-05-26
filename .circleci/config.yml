@@ -5,24 +5,31 @@ jobs:
       - image: circleci/node:stretch
     working_directory: ~/tmp/workspace
     steps:
-   # install dependencies for client and server
+      
+      # install dependencies for client
       - checkout
       - restore_cache:
           keys:
-            - npm-server-dependencies-{{ checksum "server/package-lock.json" }}
-            npm-client-dependencies-{{ checksum "client/package-lock.json" }}
+            - npm-client-dependencies-{{ checksum "client/package-lock.json" }}
             - npm-dependencies-
       - run: cd client && npm install
       - save_cache:
-        paths:
-          - ./client/node_modules/
-        keys: npm-client-dependencies-{{ checksum "client/package-lock.json" }}
+          paths:
+            - ./client/node_modules/
+          keys: npm-client-dependencies-{{ checksum "client/package-lock.json" }}    
+   
+      # install dependencies for server
+      - restore_cache:
+          keys:
+            - npm-server-dependencies-{{ checksum "server/package-lock.json" }}
+            - npm-dependencies-
       - run: cd server && npm install
       - save_cache:
           paths:
             - ./server/node_modules/
           keys: npm-server-dependencies-{{ checksum "server/package-lock.json" }}
-   # build the dev
+
+   # build the dev for testing
       - run: cd client && npm run build-prod
       - run: cd server && npm run tsc
       - persist_to_workspace:
