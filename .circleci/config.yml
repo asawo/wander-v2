@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:stretch
-    working_directory: ~/repo
+    working_directory: ~/tmp/workspace
     steps:
    # install dependencies for client and server
       - checkout
@@ -13,7 +13,7 @@ jobs:
       - run: cd client && npm run build-prod
       - run: cd server && npm run tsc
       - persist_to_workspace:
-        root: ~/repo
+        root: .
         paths:
           - client/*
           - server/*
