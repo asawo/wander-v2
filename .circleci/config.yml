@@ -8,9 +8,9 @@ jobs:
    # install dependencies for client and server
       - checkout
       - restore_cache:
-        keys:
-        - npm-dependencies-{{ checksum "package-lock.json" }}
-        - npm-dependencies-
+          keys:
+            - npm-dependencies-{{ checksum "package-lock.json" }}
+            - npm-dependencies-
       - run: cd client && npm install
       - run: cd server && npm install
       - save_cache:
