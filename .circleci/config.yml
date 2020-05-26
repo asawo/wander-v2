@@ -17,6 +17,8 @@ jobs:
           paths:
             - client/*
             - server/*
+      - run: cd client/dist && ls
+      - run: cd server/dist && ls
  #  - restore_cache:
  #     keys:
  #      - v1-dependencies-{{ checksum "package.json" }}
