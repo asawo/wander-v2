@@ -1,28 +1,114 @@
 version: 2.1
 jobs:
-  build-dev:
+  build:
     docker:
       - image: circleci/node:stretch
-    working_directory: ~/repo
+    working_directory: ~/tmp/workspace
     steps:
-   # install dependencies for client and server
+      # install dependencies for client
       - checkout
+      - restore_cache:
+          keys:
+            - npm-client-dependencies-{{ checksum "client/package-lock.json" }}
+            - npm-dependencies-
       - run: cd client && npm install
+      - save_cache:
+          paths:
+            - ./client/node_modules/
+          key: npm-client-dependencies-{{ checksum "client/package-lock.json" }}    
+   
+      # install dependencies for server
+      - restore_cache:
+          keys:
+            - npm-server-dependencies-{{ checksum "server/package-lock.json" }}
+            - npm-dependencies-
       - run: cd server && npm install
-   # build the dev
+      - save_cache:
+          paths:
+            - ./server/node_modules/
+          key: npm-server-dependencies-{{ checksum "server/package-lock.json" }}
+
+   # build the dev for testing
       - run: cd client && npm run build-prod
       - run: cd server && npm run tsc
- #  - restore_cache:
- #     keys:
- #      - v1-dependencies-{{ checksum "package.json" }}
- #      # fallback to using the latest cache if no exact match is found
- #      - v1-dependencies-
+      - persist_to_workspace:
+          root: .
+          paths:
+            - client/dist/*
+            - server/dist/*
+
   test:
-    run: cd server && npm test
- # build-prod:
- # publish:
+    docker:
+    - image: circleci/node:stretch
+    working_directory: ~/tmp/workspace
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /home/circleci/tmp/workspace/
+      - run: cd server && npm test
+
+  build-prod:
+    docker:
+    - image: circleci/node:12
+    working_directory: ~/tmp/workspace
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /home/circleci/tmp/workspace/
+      - run: cd server && npm install --production
+      - run: cd client && npm install --production
+      - persist_to_workspace:
+          root: .
+          paths:
+            - client/node_modules
+            - server/node_modules
+            - ./app.yaml
+            - ./.gcloudignore
+    
+  deploy:
+    docker:
+    - image: google/cloud-sdk
+    working_directory: ~/tmp/workspace
+    steps:
+      - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
+      - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
+      - attach_workspace:
+          at: ~/tmp/workspace/
+      - run: |
+          echo ${GCLOUD_ACCOUNT_KEY_BASE64} | base64 -d > ./key.json
+      - run: |
+          gcloud auth activate-service-account --key-file=key.json
+          gcloud --quiet config set project kouzoh-p-asawo
+          gcloud --quiet config set compute/zone asia-northeast1
+<<<<<<< HEAD
+      # checking if config is working
+      - run: ls
+<<<<<<< HEAD
+=======
+      - run: cd client && ls
+      - run: cd server && ls
+=======
+>>>>>>> 0075888... circleci config attempt #51
+      # deploy to GAE
+      - run: gcloud app deploy
+
+>>>>>>> 5e3f69b... circleci config attempt #41
+
 workflows:
   version: 2
   build_and_test:
-    - build-dev
-    - test
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+<<<<<<< HEAD
+=======
+      - build-prod:
+          requires:
+            - test
+      - deploy:
+          requires:
+            - build-prod
+
+>>>>>>> 5e3f69b... circleci config attempt #41
