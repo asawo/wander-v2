@@ -18,6 +18,9 @@ jobs:
  #      # fallback to using the latest cache if no exact match is found
  #      - v1-dependencies-
   test:
+    docker:
+    - image: circleci/node:stretch
+    working_directory: ~/repo
     steps:
       - run: cd server && npm test
  # build-prod:
@@ -28,3 +31,5 @@ workflows:
     jobs:
       - build
       - test
+        requires:
+          - build
