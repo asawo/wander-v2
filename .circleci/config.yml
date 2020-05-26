@@ -1,18 +1,18 @@
 version: 2.1
 
 jobs:
-  build-dev:
-    docker:
-     - image: circleci/node:stretch
-    working_directory: ~/repo
-    steps:
+ build-dev:
+  docker:
+   - image: circleci/node:stretch
+  working_directory: ~/repo
+  steps:
    # install dependencies for client and server
-     - checkout
-     - run: cd client && npm install
-     - run: cd server && npm install
+   - checkout
+   - run: cd client && npm install
+   - run: cd server && npm install
    # build the dev
-     - run: cd client && npm run build-prod
-     - run: cd server && npm run tsc
+   - run: cd client && npm run build-prod
+   - run: cd server && npm run tsc
 
  #  - restore_cache:
  #     keys:
@@ -20,13 +20,13 @@ jobs:
  #      # fallback to using the latest cache if no exact match is found
  #      - v1-dependencies-
 
-  test:
-    run: cd server && npm test
+ test:
+  run: cd server && npm test
  # build-prod:
  # publish:
 
 workflows:
-  version: 2
-    build_and_test:
-    - build-dev
-    - test
+ version: 2
+ build_and_test:
+  - build-dev
+  - test
