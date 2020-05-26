@@ -1,16 +1,96 @@
 version: 2.1
-orbs:
-  node: circleci/node@1.1.6
+
 jobs:
-  build-and-test:
-    executor:
-      name: node/default
+  test:
+    docker:
+      - image: google/cloud-sdk
+    working_directory: ~/repo
+
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: cd server && npm install
-            - run: cd server && npm test
+      - restore_cache:
+          keys:
+          - npm-dependencies-{{ checksum "package-lock.json" }}
+          - npm-dependencies-
+      - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
+      - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
+
+      - run: |
+          echo "${GCLOUD_ACCOUNT_KEY_BASE64}" | base64 -d > ./key.json
+      - run: |
+          echo "${GCLOUD_ACCOUNT_KEY_BASE64}" | base64 -d > ~/key.json
+          gcloud auth activate-service-account --key-file=/root/key.json
+          gcloud --quiet config set project mercari-jp-got-services
+          gcloud --quiet config set compute/zone asia-northeast1
+      - run: npm install
+      - save_cache:
+          paths:
+          - node_modules
+          key: npm-dependencies-{{ checksum "package-lock.json" }}
+      # - run:
+      #     name: lint
+      #     command: npm run lint
+      - run:
+          name: test
+          command: npm run test
+
+  build:
+    docker:
+      - image: google/cloud-sdk
+
+    working_directory: ~/tmp/workspace
+    steps:
+      - checkout
+      - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
+      - run: apt-get update && apt-get install -y       --no-install-recommends --no-install-suggests nodejs
+      - restore_cache:
+          keys:
+            - package-lock-2-{{ checksum "package-lock.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - package-lock-2-
+      - save_cache:
+        paths:
+          - node_modules
+        key: package-lock-2-{{ checksum "package-lock.json" }}
+      - run: |
+        echo "${GCLOUD_ACCOUNT_KEY_BASE64}" | base64 -d > ~/key.json
+        gcloud auth activate-service-account --key-file=/root/key.json
+        gcloud --quiet config set project kouzoh-p-asawo
+        gcloud --quiet config set compute/zone asia-northeast1
+      - run: |
+        echo "${GCLOUD_ACCOUNT_KEY_BASE64}" | base64 -d > ./key.json
+      
+      
+      - run:
+          name: build backend
+          command: cd server && npm run build
+      - restore_cache:
+        keys:
+          - package-lock-3-{{ checksum "src/client/package-lock.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - package-lock-3-
+      - run:
+          name: install frontend dependencies
+          command: cd client && npm install
+
+
+# jobs:
+#   build:
+#     executor:
+#       name: node/default
+#     steps:
+#       - run: cd server && npm install
+#       - run: cd server && npm test
+
+#   build-prod:
+#     executor:
+#       name: node/default
+#     steps:
+#       - checkout
+#       - node/with-cache:
+#           steps:
+#             - run: cd server && npm install --production
+#             - run: cd server && npm test
 workflows:
     build-and-test:
       jobs:
