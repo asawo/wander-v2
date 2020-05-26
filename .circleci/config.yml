@@ -12,6 +12,11 @@ jobs:
    # build the dev
       - run: cd client && npm run build-prod
       - run: cd server && npm run tsc
+      - persist_to_workspace:
+        root: ~/repo
+        paths:
+          - client/*
+          - server/*
  #  - restore_cache:
  #     keys:
  #      - v1-dependencies-{{ checksum "package.json" }}
@@ -22,6 +27,8 @@ jobs:
     - image: circleci/node:stretch
     working_directory: ~/repo
     steps:
+      - attach_workspace:
+        at: ~/repo
       - run: cd server && npm test
  # build-prod:
  # publish:
@@ -30,6 +37,4 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - test:
-        requires:
-          - build
+      - test
