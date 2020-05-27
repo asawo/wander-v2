@@ -36,7 +36,9 @@ jobs:
           root: .
           paths:
             - client/dist/*
+            - client/package.json
             - server/dist/*
+            - server/package.json
 
   test:
     docker:
@@ -45,6 +47,7 @@ jobs:
     steps:
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
+      - run: cd server && npm install
       - run: cd server && npm test
  # build-prod:
  # publish:
