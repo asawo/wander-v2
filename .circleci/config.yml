@@ -76,7 +76,7 @@ jobs:
     steps:
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
-      - run ls
+      - run: ls
 
 workflows:
   version: 2
