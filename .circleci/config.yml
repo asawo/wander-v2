@@ -56,8 +56,8 @@ jobs:
       - run: cd client && npm install
       - run: cd server && npm test
 
- build-prod:
-  docker:
+  build-prod:
+    docker:
     - image: circleci/node:12
     working_directory: ~/tmp/workspace
     steps:
