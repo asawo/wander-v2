@@ -30,6 +30,7 @@ jobs:
           key: npm-server-dependencies-{{ checksum "server/package-lock.json" }}
 
    # build the dev for testing
+      - run: cd client && npm rebuild node-sass
       - run: cd client && npm run build-prod
       - run: cd server && npm run tsc
       - persist_to_workspace:
