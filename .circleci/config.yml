@@ -5,7 +5,6 @@ jobs:
       - image: circleci/node:12
     working_directory: ~/tmp/workspace
     steps:
-      
       # install dependencies for client
       - checkout
       - restore_cache:
@@ -47,6 +46,7 @@ jobs:
     - image: circleci/node:12
     working_directory: ~/tmp/workspace
     steps:
+      - checkout
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
       - restore_cache:
@@ -70,20 +70,22 @@ jobs:
     - image: circleci/node:12
     working_directory: ~/tmp/workspace
     steps:
+      - checkout
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
       - run: cd server && npm install --production
       - run: cd client && npm install --production
       - persist_to_workspace:
           root: .
-          paths: .
+          paths:
+            - client/node_modules
+            - server/node_modules
     
   publish:
     docker:
     - image: circleci/node:12
     working_directory: ~/tmp/workspace
     steps:
-      - checkout
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
       - run: ls
