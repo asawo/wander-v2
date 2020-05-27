@@ -11,7 +11,7 @@ jobs:
       - restore_cache:
           keys:
             - npm-client-dependencies-{{ checksum "client/package-lock.json" }}
-            - npm-dependencies-
+            - npm-client-dependencies-
       - run: cd client && npm install
       - save_cache:
           paths:
@@ -22,7 +22,7 @@ jobs:
       - restore_cache:
           keys:
             - npm-server-dependencies-{{ checksum "server/package-lock.json" }}
-            - npm-dependencies-
+            - npm-server-dependencies-
       - run: cd server && npm install
       - save_cache:
           paths:
@@ -54,7 +54,15 @@ jobs:
             - npm-server-dependencies-{{ checksum "server/package-lock.json" }}
             - npm-dependencies-
       - run: cd server && npm install
+      - save_cache:
+          paths:
+            - ./server/node_modules/
+          key: npm-server-dependencies-{{ checksum "server/package-lock.json" }}      
       - run: cd client && npm install
+      - save_cache:
+          paths:
+            - ./client/node_modules/
+          key: npm-client-dependencies-{{ checksum "client/package-lock.json" }}        
       - run: cd server && npm test
 
   build-prod:
@@ -75,9 +83,12 @@ jobs:
     - image: circleci/node:12
     working_directory: ~/tmp/workspace
     steps:
+      - checkout
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
       - run: ls
+      - run: cd client && ls
+      - run: cd server && ls
 
 workflows:
   version: 2
