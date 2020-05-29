@@ -84,7 +84,7 @@ jobs:
   deploy:
     docker:
     - image: google/cloud-sdk
-    working_directory: ~/tmp/workspace
+    working_directory: ~home/tmp/workspace
     steps:
       - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
       - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
@@ -101,7 +101,7 @@ jobs:
       - run: cd client && ls
       - run: cd server && ls
       # deploy to GAE
-      # - run: gcloud app deploy
+      - run: gcloud app deploy
 
 
 workflows:
