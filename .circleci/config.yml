@@ -84,7 +84,7 @@ jobs:
   deploy:
     docker:
     - image: google/cloud-sdk
-    working_directory: ~home/tmp/workspace
+    working_directory: ./home/tmp/workspace
     steps:
       - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
       - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
