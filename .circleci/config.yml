@@ -81,16 +81,25 @@ jobs:
             - client/node_modules
             - server/node_modules
     
-  publish:
+  deploy:
     docker:
-    - image: circleci/node:12
-    working_directory: ~/tmp/workspace
+    - image: google/cloud-sdk
     steps:
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
+      # checking if config is working
+      - run: |
+          echo "${GCLOUD_ACCOUNT_KEY_BASE64}" | base64 -d > ./key.json
+      - run: |
+          echo "${GCLOUD_ACCOUNT_KEY_BASE64}" | base64 -d > ~/key.json
+          gcloud auth activate-service-account --key-file=/root/key.json
+          gcloud --quiet config set project mercari-jp-got-services
+          gcloud --quiet config set compute/zone asia-northeast1
       - run: ls
       - run: cd client && ls
       - run: cd server && ls
+      # deploy to GAE
+
 
 workflows:
   version: 2
@@ -103,7 +112,7 @@ workflows:
       - build-prod:
           requires:
             - test
-      - publish:
+      - deploy:
           requires:
             - build-prod
 
