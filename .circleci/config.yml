@@ -91,7 +91,7 @@ jobs:
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
       - run: |
-          base64 -i ${GCLOUD_ACCOUNT_KEY_BASE64} -D > ./key.json
+          echo ${GCLOUD_ACCOUNT_KEY_BASE64} | base64 -d > ./key.json
       - run: |
           gcloud auth activate-service-account --key-file=key.json
           gcloud --quiet config set project mercari-jp-got-services
