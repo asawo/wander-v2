@@ -95,7 +95,7 @@ jobs:
           echo ${GCLOUD_ACCOUNT_KEY_BASE64} | base64 -d > ./key.json
       - run: |
           gcloud auth activate-service-account --key-file=key.json
-          gcloud --quiet config set project mercari-jp-got-services
+          gcloud --quiet config set project kouzoh-p-asawo
           gcloud --quiet config set compute/zone asia-northeast1
       # checking if config is working
       - run: ls
