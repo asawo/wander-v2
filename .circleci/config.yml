@@ -80,16 +80,17 @@ jobs:
           paths:
             - client/node_modules
             - server/node_modules
+            - ./app.yaml
     
   deploy:
     docker:
     - image: google/cloud-sdk
-    working_directory: /home/circleci/tmp/workspace
+    working_directory: ~/tmp/workspace
     steps:
       - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
       - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
       - attach_workspace:
-          at: /home/circleci/tmp/workspace/
+          at: ~/tmp/workspace/
       - run: |
           echo ${GCLOUD_ACCOUNT_KEY_BASE64} | base64 -d > ./key.json
       - run: |
