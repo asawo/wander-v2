@@ -101,7 +101,7 @@ jobs:
       - run: cd client && ls
       - run: cd server && ls
       # deploy to GAE
-      - run: gcloud app deploy
+      # - run: gcloud app deploy
 
 
 workflows:
