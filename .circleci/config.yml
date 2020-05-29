@@ -84,23 +84,24 @@ jobs:
   deploy:
     docker:
     - image: google/cloud-sdk
+    working_directory: ~/tmp/workspace
     steps:
       - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
       - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
-      # checking if config is working
       - run: |
-          echo "${GCLOUD_ACCOUNT_KEY_BASE64}" | base64 -d > ./key.json
+          base64 -i ${GCLOUD_ACCOUNT_KEY_BASE64} -D > ./key.json
       - run: |
-          echo "${GCLOUD_ACCOUNT_KEY_BASE64}" | base64 -d > ~/key.json
-          gcloud auth activate-service-account --key-file=/root/key.json
+          gcloud auth activate-service-account --key-file=key.json
           gcloud --quiet config set project mercari-jp-got-services
           gcloud --quiet config set compute/zone asia-northeast1
+      # checking if config is working
       - run: ls
       - run: cd client && ls
       - run: cd server && ls
       # deploy to GAE
+      - run: gcloud app deploy
 
 
 workflows:
