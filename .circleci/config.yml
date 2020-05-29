@@ -85,6 +85,8 @@ jobs:
     docker:
     - image: google/cloud-sdk
     steps:
+      - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
+      - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
       # checking if config is working
