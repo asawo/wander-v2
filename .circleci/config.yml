@@ -81,6 +81,7 @@ jobs:
             - client/node_modules
             - server/node_modules
             - ./app.yaml
+            - ./.gcloudignore
     
   deploy:
     docker:
@@ -97,10 +98,6 @@ jobs:
           gcloud auth activate-service-account --key-file=key.json
           gcloud --quiet config set project kouzoh-p-asawo
           gcloud --quiet config set compute/zone asia-northeast1
-      # checking if config is working
-      - run: ls
-      - run: cd client && ls
-      - run: cd server && ls
       # deploy to GAE
       - run: gcloud app deploy
 
