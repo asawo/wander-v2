@@ -62,8 +62,13 @@ jobs:
       - save_cache:
           paths:
             - ./client/node_modules/
-          key: npm-client-dependencies-{{ checksum "client/package-lock.json" }}        
-      - run: cd server && npm test
+          key: npm-client-dependencies-{{ checksum "client/package-lock.json" }} 
+          
+      - run: cd server && npm lint
+      - run: cd client && npm lint 
+      # Add this back once I actually have tests
+      # - run: cd server && npm test
+      # - run: cd client && npm test
 
   build-prod:
     docker:
