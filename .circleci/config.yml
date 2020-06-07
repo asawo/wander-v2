@@ -1,17 +1,123 @@
 version: 2.1
-orbs:
-  node: circleci/node@1.1.6
 jobs:
-  build-and-test:
-    executor:
-      name: node/default
+  build:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/tmp/workspace
+    steps:
+      # install dependencies for client
+      - checkout
+      - restore_cache:
+          keys:
+            - npm-client-dependencies-{{ checksum "client/package-lock.json" }}
+            - npm-client-dependencies-
+      - run: cd client && npm install
+      - save_cache:
+          paths:
+            - ./client/node_modules/
+          key: npm-client-dependencies-{{ checksum "client/package-lock.json" }}    
+   
+      # install dependencies for server
+      - restore_cache:
+          keys:
+            - npm-server-dependencies-{{ checksum "server/package-lock.json" }}
+            - npm-server-dependencies-
+      - run: cd server && npm install
+      - save_cache:
+          paths:
+            - ./server/node_modules/
+          key: npm-server-dependencies-{{ checksum "server/package-lock.json" }}
+
+   # build the dev for testing
+      - run: cd client && npm rebuild node-sass
+      - run: cd client && npm run build-prod
+      - run: cd server && npm run tsc
+      - persist_to_workspace:
+          root: .
+          paths:
+            - client/dist/*
+            - client/package.json
+            - server/dist/*
+            - server/package.json
+  
+  # Lint job          
+  test:
+    docker:
+    - image: circleci/node:12
+    working_directory: ~/tmp/workspace
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: cd server && npm install
-            - run: cd server && npm test
+      - attach_workspace:
+          at: /home/circleci/tmp/workspace/
+      - restore_cache:
+          keys:
+            - npm-server-dependencies-{{ checksum "server/package-lock.json" }}
+            - npm-dependencies-
+      - run: cd server && npm install
+      - save_cache:
+          paths:
+            - ./server/node_modules/
+          key: npm-server-dependencies-{{ checksum "server/package-lock.json" }}      
+      - run: cd client && npm install
+      - save_cache:
+          paths:
+            - ./client/node_modules/
+          key: npm-client-dependencies-{{ checksum "client/package-lock.json" }} 
+          
+      - run: cd server && npm run lint
+      - run: cd client && npm run lint 
+      # Add this back once I actually have tests
+      # - run: cd server && npm test
+      # - run: cd client && npm test
+
+  build-prod:
+    docker:
+    - image: circleci/node:12
+    working_directory: ~/tmp/workspace
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /home/circleci/tmp/workspace/
+      - run: cd server && npm install --production
+      - run: cd client && npm install --production
+      - persist_to_workspace:
+          root: .
+          paths:
+            - client/node_modules
+            - server/node_modules
+            - ./app.yaml
+            - ./.gcloudignore
+    
+  deploy:
+    docker:
+    - image: google/cloud-sdk
+    working_directory: ~/tmp/workspace
+    steps:
+      - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
+      - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
+      - attach_workspace:
+          at: ~/tmp/workspace/
+      - run: |
+          echo ${GCLOUD_ACCOUNT_KEY_BASE64} | base64 -d > ./key.json
+      - run: |
+          gcloud auth activate-service-account --key-file=key.json
+          gcloud --quiet config set project kouzoh-p-asawo
+          gcloud --quiet config set compute/zone asia-northeast1
+      # deploy to GAE
+      - run: gcloud app deploy
+
 workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+  version: 2
+  btd:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - build-prod:
+          requires:
+            - test
+      - deploy:
+          requires:
+            - build-prod
+
