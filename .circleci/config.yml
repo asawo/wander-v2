@@ -64,8 +64,8 @@ jobs:
             - ./client/node_modules/
           key: npm-client-dependencies-{{ checksum "client/package-lock.json" }} 
           
-      - run: cd server && npm lint
-      - run: cd client && npm lint 
+      - run: cd server && npm run lint
+      - run: cd client && npm run lint 
       # Add this back once I actually have tests
       # - run: cd server && npm test
       # - run: cd client && npm test
