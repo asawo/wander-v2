@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:stretch
+      - image: circleci/node:12
     working_directory: ~/tmp/workspace
     steps:
       # install dependencies for client
@@ -10,7 +10,7 @@ jobs:
       - restore_cache:
           keys:
             - npm-client-dependencies-{{ checksum "client/package-lock.json" }}
-            - npm-dependencies-
+            - npm-client-dependencies-
       - run: cd client && npm install
       - save_cache:
           paths:
@@ -21,7 +21,7 @@ jobs:
       - restore_cache:
           keys:
             - npm-server-dependencies-{{ checksum "server/package-lock.json" }}
-            - npm-dependencies-
+            - npm-server-dependencies-
       - run: cd server && npm install
       - save_cache:
           paths:
@@ -29,25 +29,26 @@ jobs:
           key: npm-server-dependencies-{{ checksum "server/package-lock.json" }}
 
    # build the dev for testing
+      - run: cd client && npm rebuild node-sass
       - run: cd client && npm run build-prod
       - run: cd server && npm run tsc
       - persist_to_workspace:
           root: .
           paths:
             - client/dist/*
+            - client/package.json
             - server/dist/*
-
+            - server/package.json
+  
+  # Lint job          
   test:
     docker:
-    - image: circleci/node:stretch
+    - image: circleci/node:12
     working_directory: ~/tmp/workspace
     steps:
       - checkout
       - attach_workspace:
           at: /home/circleci/tmp/workspace/
-<<<<<<< HEAD
-      - run: cd server && npm test
-=======
       - restore_cache:
           keys:
             - npm-server-dependencies-{{ checksum "server/package-lock.json" }}
@@ -68,7 +69,6 @@ jobs:
       # Add this back once I actually have tests
       # - run: cd server && npm test
       # - run: cd client && npm test
->>>>>>> bf6c977... added linting step
 
   build-prod:
     docker:
@@ -103,15 +103,12 @@ jobs:
           gcloud auth activate-service-account --key-file=key.json
           gcloud --quiet config set project kouzoh-p-asawo
           gcloud --quiet config set compute/zone asia-northeast1
-
-      # checking if config is working
-      - run: ls
       # deploy to GAE
       - run: gcloud app deploy
 
 workflows:
   version: 2
-  build_and_test:
+  btd:
     jobs:
       - build
       - test:
@@ -123,4 +120,3 @@ workflows:
       - deploy:
           requires:
             - build-prod
-
