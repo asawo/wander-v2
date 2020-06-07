@@ -80,19 +80,11 @@ jobs:
           gcloud auth activate-service-account --key-file=key.json
           gcloud --quiet config set project kouzoh-p-asawo
           gcloud --quiet config set compute/zone asia-northeast1
-<<<<<<< HEAD
+
       # checking if config is working
       - run: ls
-<<<<<<< HEAD
-=======
-      - run: cd client && ls
-      - run: cd server && ls
-=======
->>>>>>> 0075888... circleci config attempt #51
       # deploy to GAE
       - run: gcloud app deploy
-
->>>>>>> 5e3f69b... circleci config attempt #41
 
 workflows:
   version: 2
@@ -102,8 +94,6 @@ workflows:
       - test:
           requires:
             - build
-<<<<<<< HEAD
-=======
       - build-prod:
           requires:
             - test
@@ -111,4 +101,3 @@ workflows:
           requires:
             - build-prod
 
->>>>>>> 5e3f69b... circleci config attempt #41
