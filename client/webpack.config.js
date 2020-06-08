@@ -21,12 +21,31 @@ module.exports = {
 				exclude: /node_modules/,
 			},
 			{
+				test: /\.tsx?$/,
+				exclude: /\.test.tsx?$/,
+				include: /src/,
+				use: 'awesome-typescript-loader?silent=true',
+			},
+			{
 				test: /\.s?css$/,
 				use: ['style-loader', 'css-loader', 'sass-loader'],
 			},
 			{
 				test: /\.ts(x)?$/,
 				use: ['awesome-typescript-loader'],
+				exclude: /node_modules/,
+			},
+			{
+				test: /\.(ts|tsx)$/,
+				enforce: 'pre',
+				use: [
+					{
+						options: {
+							eslintPath: require.resolve('eslint'),
+						},
+						loader: require.resolve('eslint-loader'),
+					},
+				],
 				exclude: /node_modules/,
 			},
 		],
