@@ -2,14 +2,15 @@ import express, { Request, Response, NextFunction } from 'express';
 import indexRoutes from './routes/index';
 import userRoutes from './routes/user';
 import path from 'path';
+import { json } from 'body-parser';
 // import * as db from './config/database';
 const PORT = process.env.PORT || 8080;
 const app = express();
 
-app.use(express.json());
-
+app.use(json());
 app.use(express.static(path.resolve(__dirname, '../../client/dist')));
 
+// Routes
 app.use('/', indexRoutes);
 app.use('/user', userRoutes);
 

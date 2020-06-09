@@ -1,9 +1,18 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
+import { User } from '../models/user';
 
-export const hi = (req: Request, res: Response) => {
-  res.send('Hello');
+const addedUser: User[] = [];
+
+export const createUser: RequestHandler = (req, res) => {
+  const username = (req.body as { username: string }).username;
+  const password = (req.body as { password: string }).password;
+  const newUser = new User(username, password);
+
+  addedUser.push(newUser);
+
+  res.status(201).json({ message: 'Created new user.', createdUser: newUser });
 };
 
-export const awesome = (req: Request, res: Response) => {
+export const awesome: RequestHandler = (req, res) => {
   res.send('awesome');
 };

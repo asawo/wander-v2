@@ -1,8 +1,8 @@
 import express from 'express';
-import * as statusController from '../controllers/status';
+import { createUser, awesome } from '../controllers/user';
 const router = express.Router();
 
-router.get('/', statusController.hi);
-router.get('/awesome', statusController.awesome);
+router.get('/', createUser);
+router.get('/awesome', awesome);
 
 export default router;
