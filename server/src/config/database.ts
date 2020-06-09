@@ -7,6 +7,7 @@ import {
     HasManyCountAssociationsMixin,
     HasManyCreateAssociationMixin,
 } from 'sequelize';
+
 const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/wander';
 
 module.exports = new Sequelize(connectionString);
