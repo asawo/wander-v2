@@ -5,4 +5,4 @@ const router = express.Router();
 router.get('/', statusController.hi);
 router.get('/awesome', statusController.awesome);
 
-module.exports = router;
+export default router;
