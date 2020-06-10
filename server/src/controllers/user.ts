@@ -6,7 +6,7 @@ const addedUser: User[] = [];
 export const createUser: RequestHandler = (req, res) => {
   const username = (req.body as { username: string }).username;
   const password = (req.body as { password: string }).password;
-  const newUser = new User(username, password);
+  const newUser: User = { username, password };
 
   addedUser.push(newUser);
 
@@ -14,5 +14,5 @@ export const createUser: RequestHandler = (req, res) => {
 };
 
 export const awesome: RequestHandler = (req, res) => {
-  res.send('awesome');
+  res.send('hey awesome');
 };
