@@ -1,39 +1,14 @@
-import { Sequelize, Model, DataTypes, BuildOptions } from 'sequelize';
-import { CONNECTION_STRING } from '../config/constants';
-// import { Test } from '../models/test';
+// import { Sequelize, Model, DataTypes, BuildOptions } from 'sequelize';
 
-const sequelize = new Sequelize(CONNECTION_STRING);
-
-// initialize class
-class Test extends Model {
-  public id!: number;
-  public user!: string;
-}
-
-Test.init(
-  {
-    id: {
-      type: new DataTypes.INTEGER(),
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    user: {
-      type: new DataTypes.STRING(),
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    tableName: 'test',
-    timestamps: false,
-  },
-);
+import { Test } from '../models/test';
 
 // queries
 export const test = async (num: number) => {
   try {
-    const result: any = await Test.findByPk(num);
-    console.log('response: ', result.dataValues);
+    const result: any = await Test.findAll({
+      raw: true,
+    });
+    console.log('response: ', result);
 
     return result;
   } catch (err) {
