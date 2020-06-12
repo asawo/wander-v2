@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { User } from '../models/user';
+import { User } from '../@types/general';
 
 const addedUser: User[] = [];
 

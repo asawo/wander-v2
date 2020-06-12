@@ -1,7 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { Doggos } from './doggos';
-const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/wander';
-const sequelize = new Sequelize(connectionString);
 
 const TABLE_NAME = 'users';
 
@@ -39,7 +37,7 @@ class Users extends Model {
   }
 
   public static associate(): void {
-    Users.hasOne(Doggos, {
+    Users.hasMany(Doggos, {
       foreignKey: 'userid',
     });
   }

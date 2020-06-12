@@ -3,8 +3,9 @@ import indexRoutes from './routes/index';
 import userRoutes from './routes/user';
 import path from 'path';
 import { json } from 'body-parser';
-// import * as db from './config/database';
-const PORT = process.env.PORT || 8080;
+import { test } from './controllers/db';
+import { PORT } from './config/constants';
+
 const app = express();
 
 app.use(json());
@@ -18,6 +19,8 @@ app.use('/user', userRoutes);
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ message: err.message });
 });
+
+test(1);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
