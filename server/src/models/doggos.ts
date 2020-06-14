@@ -1,6 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { CONNECTION_STRING } from '../config/constants';
-import { Users } from './users';
 import { Likes } from './likes';
 const sequelize = new Sequelize(CONNECTION_STRING);
 const TABLE_NAME = 'doggos';
