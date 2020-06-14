@@ -1,6 +1,16 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
-import { Doggos } from './doggos';
+// import {
+//   HasManyGetAssociationsMixin,
+//   HasManyAddAssociationMixin,
+//   HasManyHasAssociationMixin,
+//   Association,
+//   HasManyCountAssociationsMixin,
+//   HasManyCreateAssociationMixin,
+// } from 'sequelize';
 
+import { Doggos } from './doggos';
+import { CONNECTION_STRING } from '../config/constants';
+const sequelize = new Sequelize(CONNECTION_STRING);
 const TABLE_NAME = 'users';
 
 class Users extends Model {
@@ -8,45 +18,41 @@ class Users extends Model {
   public username!: string;
   public password!: string;
 
-  public static attach(sequelize: Sequelize): void {
-    this.init(
-      {
-        userid: {
-          type: DataTypes.INTEGER,
-          autoIncrement: true,
-          allowNull: false,
-          primaryKey: true,
-        },
-        username: {
-          type: DataTypes.STRING,
-          allowNull: false,
-          defaultValue: '',
-        },
-        password: {
-          type: DataTypes.STRING,
-          allowNull: false,
-          defaultValue: '',
-        },
-      },
-      {
-        tableName: TABLE_NAME,
-        underscored: true,
-        sequelize: sequelize,
-      },
-    );
-  }
-
-  public static associate(): void {
-    Users.hasMany(Doggos, {
-      foreignKey: 'userid',
-    });
-  }
+  // public readonly doggos?: Doggos[];
+  // public static associations: {
+  //   likes: Association<Users, Doggos>;
+  // };
 }
 
-const factory = (sequelize: Sequelize) => {
-  Users.attach(sequelize);
+Users.init(
+  {
+    userid: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true,
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '',
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '',
+    },
+  },
+  {
+    tableName: TABLE_NAME,
+    timestamps: false,
+    sequelize,
+  },
+);
 
-  return Users;
-};
+Users.hasMany(Doggos, {
+  sourceKey: 'userid',
+  foreignKey: 'userid',
+});
 
-export { Users, factory };
+export { Users };

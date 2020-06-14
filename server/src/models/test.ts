@@ -21,9 +21,9 @@ Test.init(
     },
   },
   {
-    sequelize,
-    tableName: 'test',
+    tableName: TABLE_NAME,
     timestamps: false,
+    sequelize,
   },
 );
 

@@ -1,6 +1,8 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
+import { CONNECTION_STRING } from '../config/constants';
 import { Users } from './users';
-
+import { Likes } from './likes';
+const sequelize = new Sequelize(CONNECTION_STRING);
 const TABLE_NAME = 'doggos';
 
 class Doggos extends Model {
@@ -12,65 +14,55 @@ class Doggos extends Model {
   public dateupdated!: Date;
   public imageurl!: string;
   public username!: string;
-
-  public static attach(sequelize: Sequelize): void {
-    this.init(
-      {
-        doggoid: {
-          type: DataTypes.INTEGER,
-          autoIncrement: true,
-          allowNull: false,
-          primaryKey: true,
-        },
-        userid: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-        },
-        doggoname: {
-          type: DataTypes.STRING,
-          allowNull: true,
-        },
-        description: {
-          type: DataTypes.STRING,
-          allowNull: true,
-        },
-        datecreated: {
-          type: DataTypes.DATE,
-          allowNull: false,
-        },
-        dateupdated: {
-          type: DataTypes.DATE,
-          allowNull: false,
-        },
-        imgageurl: {
-          type: DataTypes.STRING,
-          allowNull: true,
-        },
-        username: {
-          type: DataTypes.STRING,
-          allowNull: true,
-        },
-      },
-      {
-        tableName: TABLE_NAME,
-        underscored: true,
-        sequelize: sequelize,
-      },
-    );
-  }
-
-  public static associate(): void {
-    Doggos.hasOne(Users, {
-      foreignKey: 'userid',
-      as: 'doggos',
-    });
-  }
 }
 
-const factory = (sequelize: Sequelize) => {
-  Doggos.attach(sequelize);
+Doggos.init(
+  {
+    doggoid: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true,
+    },
+    userid: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    doggoname: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    datecreated: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    dateupdated: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    imageurl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+  },
+  {
+    tableName: TABLE_NAME,
+    timestamps: false,
+    sequelize: sequelize,
+  },
+);
 
-  return Doggos;
-};
+Doggos.hasMany(Likes, {
+  sourceKey: 'doggoid',
+  foreignKey: 'doggoid',
+});
 
-export { Doggos, factory };
+export { Doggos };

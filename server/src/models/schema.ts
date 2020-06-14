@@ -1,7 +1,5 @@
-import * as users from './users';
-import * as doggos from './doggos';
+import { Users } from './users';
+import { Doggos } from './doggos';
+import { Likes } from './likes';
 
-export default {
-  users,
-  doggos,
-};
+export default { Users, Doggos, Likes };
