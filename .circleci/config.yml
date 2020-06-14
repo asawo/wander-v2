@@ -103,8 +103,8 @@ jobs:
           gcloud auth activate-service-account --key-file=key.json
           gcloud --quiet config set project kouzoh-p-asawo
           gcloud --quiet config set compute/zone asia-northeast1
-      # deploy to GAE
-      - run: gcloud app deploy
+      # deploy to GAE - stopping until error is fixed
+      # - run: gcloud app deploy
 
 workflows:
   version: 2

@@ -5,6 +5,9 @@ import { Doggos } from '../models/doggos';
 export const test1 = async (num: number) => {
   try {
     const result: any = await Users.findAll({
+      where: {
+        userid: 53,
+      },
       raw: true,
     });
     console.log('response 1: ', result);
@@ -18,6 +21,9 @@ export const test1 = async (num: number) => {
 export const test2 = async (num: number) => {
   try {
     const result: any = await Doggos.findAll({
+      where: {
+        doggoid: 27,
+      },
       raw: true,
     });
     console.log('response 2: ', result);
@@ -31,6 +37,9 @@ export const test2 = async (num: number) => {
 export const test3 = async (num: number) => {
   try {
     const result: any = await Likes.findAll({
+      where: {
+        doggoid: 27,
+      },
       raw: true,
     });
     console.log('response 3: ', result);
