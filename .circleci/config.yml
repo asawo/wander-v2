@@ -104,7 +104,7 @@ jobs:
           gcloud --quiet config set project kouzoh-p-asawo
           gcloud --quiet config set compute/zone asia-northeast1
       # deploy to GAE - stopping until error is fixed
-      # - run: gcloud app deploy
+      - run: gcloud app deploy
 
 workflows:
   version: 2

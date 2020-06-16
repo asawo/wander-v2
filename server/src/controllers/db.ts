@@ -10,7 +10,7 @@ export const test1 = async (num: number) => {
       },
       raw: true,
     });
-    console.log('response 1: ', result);
+    console.log('test response 1: ', result);
 
     return result;
   } catch (err) {
@@ -26,7 +26,7 @@ export const test2 = async (num: number) => {
       },
       raw: true,
     });
-    console.log('response 2: ', result);
+    console.log('test response 2: ', result);
 
     return result;
   } catch (err) {
@@ -42,7 +42,7 @@ export const test3 = async (num: number) => {
       },
       raw: true,
     });
-    console.log('response 3: ', result);
+    console.log('test response 3: ', result);
 
     return result;
   } catch (err) {

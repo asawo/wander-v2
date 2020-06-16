@@ -1,9 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 export const PORT = process.env.PORT || 8080;
-// export const CONNECTION_STRING = process.env.DATABASE_URL || 'postgres://localhost:5432/wander';
 
 export const dbConfig = {
-  host: process.env.SERVICE_DB_HOST || '127.0.0.1',
-  username: process.env.SERVICE_DB_USER || 'postgres',
-  password: process.env.SERVICE_DB_PASSWORD || '',
-  database: process.env.SERVICE_DB_DATABASE || 'wander',
+  host: process.env.DB_HOST || '127.0.0.1',
+  username: process.env.DB_USER || '',
+  password: process.env.DB_PASS || '',
+  database: process.env.DB_NAME || '',
 };
