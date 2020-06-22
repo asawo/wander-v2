@@ -16,9 +16,9 @@ app.use('/', indexRoutes);
 app.use('/user', userRoutes);
 
 // error middleware
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({ message: err.message, error: err });
-});
+// app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+//   res.status(500).json({ message: err.message, error: err });
+// });
 
 // console.log(test1(1));
 // console.log(test2(1));
