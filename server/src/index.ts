@@ -20,9 +20,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ message: err.message, error: err });
 });
 
-test1(1);
-test2(1);
-test3(3);
+console.log(test1(1));
+console.log(test2(1));
+console.log(test3(1));
 
 app.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);

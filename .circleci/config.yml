@@ -35,6 +35,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
+            - client/assets
             - client/dist/*
             - client/package.json
             - server/dist/*
