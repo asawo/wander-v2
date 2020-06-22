@@ -1,5 +1,6 @@
 {
 	"name": "wander-v2",
+	"description": "Wander Version 2",
 	"version": "1.0.0",
 	"main": "index.js",
 	"author": "Arthur Lechte",
@@ -28,7 +29,6 @@
 		"coverage": "jest --coverage"
 	},
 	"dependencies": {
-		"eslint": "^7.2.0",
 		"node-sass": "^4.14.0",
 		"normalize.css": "^8.0.1",
 		"react": "^16.13.1",
@@ -36,9 +36,9 @@
 		"react-modal": "^3.11.2",
 		"react-router-dom": "^5.1.2"
 	},
-	"description": "Wander Version 2",
 	"devDependencies": {
 		"awesome-typescript-loader": "^5.2.1",
+		"eslint": "^7.2.0",
 		"css-loader": "^3.5.3",
 		"sass-loader": "^8.0.2",
 		"style-loader": "^1.2.1",
@@ -65,5 +65,17 @@
 		"ts-jest": "^26.1.0",
 		"typescript": "^3.8.3",
 		"webpack-dev-server": "^3.11.0"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
 	}
 }

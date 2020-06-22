@@ -9,7 +9,8 @@
     "tsc": "tsc",
     "build:dev": "tsc --watch --preserveWatchOutput",
     "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
-    "dev1": "ts-node ./src/index.ts",
+    "cloudproxy": "../cloud_sql_proxy -instances=kouzoh-p-asawo:asia-northeast1:wander-v2=tcp:5432 -credential_file=../key.json &",
+    "cloudproxy:kill": "killall cloud_sql_proxy",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "test": "jest",
     "coverage": "jest --coverage"
