@@ -3,7 +3,7 @@ import indexRoutes from './routes/index';
 import userRoutes from './routes/user';
 import path from 'path';
 import { json } from 'body-parser';
-import { test1, test2, test3 } from './controllers/db';
+import { getAllUsers, createUser, deleteUser } from './controllers/db';
 import { PORT } from './config/constants';
 
 const app = express();
@@ -20,8 +20,9 @@ app.use('/user', userRoutes);
 //   res.status(500).json({ message: err.message, error: err });
 // });
 
-// console.log(test1(1));
-// console.log(test2(1));
+console.log(deleteUser('test123'));
+console.log(createUser('test123', 'password'));
+console.log(getAllUsers());
 // console.log(test3(1));
 
 app.listen(PORT, () => {
