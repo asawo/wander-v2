@@ -89,21 +89,21 @@ jobs:
             - ./app.yaml
             - ./.gcloudignore
     
-  deploy:
-    docker:
-    - image: google/cloud-sdk
-    working_directory: ~/tmp/workspace
-    steps:
-      - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
-      - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
-      - attach_workspace:
-          at: ~/tmp/workspace/
-      - run: |
-          echo ${GCLOUD_ACCOUNT_KEY_BASE64} | base64 -d > ./key.json
-      - run: |
-          gcloud auth activate-service-account --key-file=key.json
-          gcloud --quiet config set project kouzoh-p-asawo
-          gcloud --quiet config set compute/zone asia-northeast1
+  # deploy:
+  #   docker:
+  #   - image: google/cloud-sdk
+  #   working_directory: ~/tmp/workspace
+  #   steps:
+  #     - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
+  #     - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
+  #     - attach_workspace:
+  #         at: ~/tmp/workspace/
+  #     - run: |
+  #         echo ${GCLOUD_ACCOUNT_KEY_BASE64} | base64 -d > ./key.json
+  #     - run: |
+  #         gcloud auth activate-service-account --key-file=key.json
+  #         gcloud --quiet config set project kouzoh-p-asawo
+  #         gcloud --quiet config set compute/zone asia-northeast1
       # deploy to GAE - stopping until error is fixed
       # - run: gcloud app deploy
 
@@ -118,7 +118,7 @@ workflows:
       - build-prod:
           requires:
             - test
-      - deploy:
-          requires:
-            - build-prod
+      # - deploy:
+      #     requires:
+      #       - build-prod
 
