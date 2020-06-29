@@ -1,8 +1,8 @@
-import express from 'express';
-import * as statusController from '../controllers/status';
-const router = express.Router();
+import express, { Router } from 'express';
+import { createUser, awesome } from '../controllers/user';
+const router = Router();
 
-router.get('/', statusController.hi);
-router.get('/awesome', statusController.awesome);
+router.post('/register', createUser);
+router.get('/awesome', awesome);
 
-module.exports = router;
+export default router;

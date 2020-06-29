@@ -1,39 +1,49 @@
 {
-    "name": "wander-v2",
-    "version": "1.0.0",
-    "description": "Wander Version 2!",
-    "main": "index.js",
-    "scripts": {
-        "start": "node ./dist/index.js",
-        "start:dev": "nodemon ./dist/index.js",
-        "tsc": "tsc",
-        "build:dev": "tsc --watch --preserveWatchOutput",
-        "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
-        "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-        "test": "jest",
-        "coverage": "jest --coverage"
-    },
-    "author": "Arthur Lechte",
-    "license": "MIT",
-    "dependencies": {
-        "express": "^4.17.1"
-    },
-    "devDependencies": {
-        "@types/express": "^4.17.6",
-        "@types/jest": "^25.2.3",
-        "@types/node": "^14.0.11",
-        "@typescript-eslint/eslint-plugin": "^2.31.0",
-        "@typescript-eslint/parser": "^2.31.0",
-        "concurrently": "^5.2.0",
-        "eslint": "^6.8.0",
-        "eslint-config-prettier": "^6.11.0",
-        "eslint-plugin-prettier": "^3.1.3",
-        "jest": "^26.0.1",
-        "nodemon": "^2.0.3",
-        "prettier": "^2.0.5",
-        "rimraf": "^3.0.2",
-        "ts-jest": "^26.1.0",
-        "ts-node": "^8.10.2",
-        "typescript": "^3.9.5"
-    }
+  "name": "wander-v2",
+  "version": "1.0.0",
+  "description": "Wander Version 2!",
+  "main": "./dist/server.js",
+  "scripts": {
+    "start": "node ./dist/server.js",
+    "start:dev": "nodemon ./dist/server.js",
+    "tsc": "tsc",
+    "build:dev": "tsc --watch --preserveWatchOutput",
+    "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
+    "cloudproxy": "../cloud_sql_proxy -instances=kouzoh-p-asawo:asia-northeast1:wander-v2=tcp:5432 -credential_file=../key.json &",
+    "cloudproxy:kill": "killall cloud_sql_proxy",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "test": "jest",
+    "coverage": "jest --coverage"
+  },
+  "author": "Arthur Lechte",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^8.2.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.12"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.32",
+    "@types/express": "^4.17.6",
+    "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.12",
+    "@types/sequelize": "^4.28.9",
+    "@types/validator": "^13.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
+    "concurrently": "^5.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.1.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  }
 }

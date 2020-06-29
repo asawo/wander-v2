@@ -35,6 +35,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
+            - client/assets
             - client/dist/*
             - client/package.json
             - server/dist/*
@@ -67,7 +68,7 @@ jobs:
       - run: cd server && npm run lint
       - run: cd client && npm run lint 
       # Add this back once I actually have tests
-      # - run: cd server && npm test
+      - run: cd server && npm test
       # - run: cd client && npm test
 
   build-prod:
@@ -88,23 +89,23 @@ jobs:
             - ./app.yaml
             - ./.gcloudignore
     
-  deploy:
-    docker:
-    - image: google/cloud-sdk
-    working_directory: ~/tmp/workspace
-    steps:
-      - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
-      - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
-      - attach_workspace:
-          at: ~/tmp/workspace/
-      - run: |
-          echo ${GCLOUD_ACCOUNT_KEY_BASE64} | base64 -d > ./key.json
-      - run: |
-          gcloud auth activate-service-account --key-file=key.json
-          gcloud --quiet config set project kouzoh-p-asawo
-          gcloud --quiet config set compute/zone asia-northeast1
-      # deploy to GAE
-      - run: gcloud app deploy
+  # deploy:
+  #   docker:
+  #   - image: google/cloud-sdk
+  #   working_directory: ~/tmp/workspace
+  #   steps:
+  #     - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
+  #     - run: apt-get update && apt-get install -y --no-install-recommends --no-install-suggests nodejs
+  #     - attach_workspace:
+  #         at: ~/tmp/workspace/
+  #     - run: |
+  #         echo ${GCLOUD_ACCOUNT_KEY_BASE64} | base64 -d > ./key.json
+  #     - run: |
+  #         gcloud auth activate-service-account --key-file=key.json
+  #         gcloud --quiet config set project kouzoh-p-asawo
+  #         gcloud --quiet config set compute/zone asia-northeast1
+      # deploy to GAE - stopping until error is fixed
+      # - run: gcloud app deploy
 
 workflows:
   version: 2
@@ -117,7 +118,7 @@ workflows:
       - build-prod:
           requires:
             - test
-      - deploy:
-          requires:
-            - build-prod
+      # - deploy:
+      #     requires:
+      #       - build-prod
 

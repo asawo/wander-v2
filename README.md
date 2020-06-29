@@ -22,6 +22,7 @@ WIP. Initial stages of setup.
 - React + Typescript
 - SASS
 - Express + Typescript
+- Sequelize + Postgres
 - GCP
 - Docker
 
