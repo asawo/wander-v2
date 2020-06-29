@@ -68,7 +68,7 @@ jobs:
       - run: cd server && npm run lint
       - run: cd client && npm run lint 
       # Add this back once I actually have tests
-      # - run: cd server && npm test
+      - run: cd server && npm test
       # - run: cd client && npm test
 
   build-prod:
@@ -105,7 +105,7 @@ jobs:
           gcloud --quiet config set project kouzoh-p-asawo
           gcloud --quiet config set compute/zone asia-northeast1
       # deploy to GAE - stopping until error is fixed
-      - run: gcloud app deploy
+      # - run: gcloud app deploy
 
 workflows:
   version: 2
