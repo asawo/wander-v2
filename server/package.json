@@ -2,10 +2,10 @@
   "name": "wander-v2",
   "version": "1.0.0",
   "description": "Wander Version 2!",
-  "main": "./dist/index.js",
+  "main": "./dist/server.js",
   "scripts": {
-    "start": "node ./dist/index.js",
-    "start:dev": "nodemon ./dist/index.js",
+    "start": "node ./dist/server.js",
+    "start:dev": "nodemon ./dist/server.js",
     "tsc": "tsc",
     "build:dev": "tsc --watch --preserveWatchOutput",
     "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
